@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-//import lombok.*;
-
-//import java.util.Locale.Builder;
 
 @Setter
 @Getter
@@ -26,7 +23,7 @@ public class Employee {
     @Column(nullable = false)
     private String email;
 
-    private Employee( String firstName, String lastName, String email) {
+    private Employee(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -43,9 +40,7 @@ public class Employee {
     public static class Builder{
         private long id;
         private String firstName;
-
         private String lastName;
-
         private String email;
 
         public Builder() {
@@ -67,7 +62,9 @@ public class Employee {
             return this;
         }
         public Employee build(){
-            return new Employee(id, firstName, lastName, email);
+            return new Employee(
+                    id,
+                    firstName, lastName, email);
         }
     }
 }

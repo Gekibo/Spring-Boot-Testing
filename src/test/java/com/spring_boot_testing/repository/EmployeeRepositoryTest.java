@@ -121,7 +121,6 @@ class EmployeeRepositoryTest {
 
         // then
         assertThat(employeeOptional).isEmpty();
-
     }
 
     @DisplayName("Testy dla zapytań z indeksowanymi parametrami")

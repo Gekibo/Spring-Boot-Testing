@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -17,14 +16,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.*;
 
 //@ExtendWith(MockitoExtension.class) // dodawać tylko jak korzystamy z adnotacji
 class EmployeeServiceTest {
     //   test saveEmployee(Employee employee), który zwraca wyjątek
-
-    //    @Mock
+    //   test getAllEmployees() - pozytywny scenariusz
+    //   test getAllEmployees() - negatywny scenariusz
+    //   test getEmployeeById(long id);
+    //   test updateEmployee(Employee updatedEmployee);
+    //   test deleteEmployee(long id);
+//    @Mock
 //    private EmployeeRepository employeeRepository;
 //    @InjectMocks
 //    private EmployeeServiceImpl employeeService;
@@ -36,7 +38,7 @@ class EmployeeServiceTest {
     @BeforeEach
     void setUp() {
         employee = Employee.builder()
-//                .id(1L)
+                .id(1L)
                 .firstName("Adam")
                 .lastName("Małysz")
                 .email("adam@gmail.com")
@@ -61,7 +63,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    @DisplayName("Zapisywanie pracownika zwraca wyjątek ")
+    @DisplayName("Zapisywanie pracownika, zwraca wyjątek")
     void givenEmployeeObject_whenSave_thenThrowException() {
         // given
         given(employeeRepository.findByEmail(employee.getEmail()))
@@ -69,65 +71,57 @@ class EmployeeServiceTest {
         // when
         // then
         assertThrows(EmployeeAlreadyExists.class, () -> employeeService.save(employee));
-        verify(employeeRepository, never()).save(any(Employee.class));
-
+        verify(employeeRepository,never()).save(any(Employee.class)); // zobaczyć czy dany obiekt jest instacją implementacji interfejsu
     }
-
     @DisplayName("getAllEmployees() - pozytywny scenariusz")
     @Test
-    void givenEmployeeList_whenGetAllEmployees_thenReturnEmployeeList() {
+    void givenEmployeeList_whenGetAllEmployees_theReturnEmployeeList(){
         // given
         Employee employee1 = Employee.builder()
-//                .id(1L)
+                .id(1L)
                 .firstName("Adam")
                 .lastName("Małysz")
                 .email("adam@gmail.com")
                 .build();
         given(employeeRepository.findAll()).willReturn(List.of(employee, employee1));
 
-        //when
+        // when
         List<Employee> employeeList = employeeService.findAll();
 
-        //then
+        // then
         assertThat(employeeList).isNotNull();
         assertThat(employeeList.size()).isEqualTo(2);
     }
-
     @DisplayName("getAllEmployees() - negatywny scenariusz")
     @Test
-    void givenEmptyEmployeeList_whenGetAllEmployees_thenReturnEmptyEmployeeList() {
+    void givenEmptyEmployeeList_whenGetAllEmployees_theReturnEmptyEmployeeList(){
         // given
-
         given(employeeRepository.findAll()).willReturn(Collections.emptyList());
 
-        //when
+        // when
         List<Employee> employeeList = employeeService.findAll();
 
-        //then
+        // then
         assertThat(employeeList).isNotNull();
         assertThat(employeeList).isEmpty();
     }
-
-
     @DisplayName("Test getEmployeeById(long id)")
     @Test
-    void givenEmployeeId_whenFindById_thenReturnEmployee() {
-        //given
+    void givenEmployeeId_whenFindById_thenReturnEmployee(){
+        // given
         given(employeeRepository.findById(anyLong())).willReturn(Optional.of(employee));
-        //when
-        Optional<Employee> savedEmployee = employeeService.FindById(employee.getId());
-        //then
+
+        // when
+        Optional<Employee> savedEmployee = employeeService.findById(employee.getId());
+
+        // then
         assertThat(savedEmployee).isNotNull();
         assertThat(savedEmployee).isEqualTo(Optional.of(employee));
-
     }
-
-
-    @DisplayName("test updateEmployee(Employee updatedEmployee)")
+    @DisplayName("Test updateEmployee(Employee updatedEmployee)")
     @Test
     void givenEmployeeWithChangedFieldsWhenUpdateEmployee_thenReturnUpdatedEmployee(){
         // given
-        employeeRepository.save(employee);
         given(employeeRepository.save(employee)).willReturn(employee);
         employee.setEmail("jarek@gimail.com");
         employee.setFirstName("Jarek");
@@ -139,7 +133,7 @@ class EmployeeServiceTest {
         assertThat(updatedEmployee.getEmail()).isEqualTo("jarek@gimail.com");
         assertThat(updatedEmployee.getFirstName()).isEqualTo("Jarek");
     }
-    @DisplayName("test deleteEmployee(long id)")
+    @DisplayName("Test deleteEmployee(long id)")
     @Test
     void givenEmployee_whenDelete_thenEmployeeNotPresent() {
         // given
@@ -150,10 +144,6 @@ class EmployeeServiceTest {
         employeeService.deleteById(employeeId);
 
         // then
-        verify(employeeRepository, times(1)).deleteById(employeeId);
-
+        verify(employeeRepository,times(1)).deleteById(employeeId);
     }
 }
-//   test deleteEmployee(long id);
-
-

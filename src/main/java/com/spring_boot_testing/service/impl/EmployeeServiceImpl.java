@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
@@ -19,7 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee save(Employee employee) {
         Optional<Employee> savedEmployee = employeeRepository.findByEmail(employee.getEmail());
-        if(savedEmployee.isPresent())
+        if (savedEmployee.isPresent())
             throw new EmployeeAlreadyExists("Employee already exists with given email: " + employee.getEmail());
         return employeeRepository.save(employee);
     }
@@ -30,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Optional<Employee> FindById(long id) {
+    public Optional<Employee> findById(long id) {
         return employeeRepository.findById(id);
     }
 
@@ -41,6 +42,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteById(long id) {
-
+        employeeRepository.deleteById(id);
     }
 }
