@@ -31,10 +31,17 @@ public class Employee {
         this.lastName = lastName;
         this.email = email;
     }
+    private Employee(long id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
     public static Builder builder(){
         return new Builder();
     }
     public static class Builder{
+        private long id;
         private String firstName;
 
         private String lastName;
@@ -42,6 +49,10 @@ public class Employee {
         private String email;
 
         public Builder() {
+        }
+        public Builder id(long id){
+            this.id = id;
+            return this;
         }
         public Builder firstName(String firstName){
             this.firstName = firstName;
@@ -56,7 +67,7 @@ public class Employee {
             return this;
         }
         public Employee build(){
-            return new Employee(firstName, lastName, email);
+            return new Employee(id, firstName, lastName, email);
         }
     }
 }
