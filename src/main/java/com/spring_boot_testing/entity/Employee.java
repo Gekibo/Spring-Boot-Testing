@@ -1,7 +1,18 @@
 package com.spring_boot_testing.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+//import lombok.*;
 
+//import java.util.Locale.Builder;
+
+@Setter
+@Getter
+//@AllArgsConstructor
+@NoArgsConstructor
+//@Builder
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -15,4 +26,37 @@ public class Employee {
     @Column(nullable = false)
     private String email;
 
+    private Employee( String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+    public static Builder builder(){
+        return new Builder();
+    }
+    public static class Builder{
+        private String firstName;
+
+        private String lastName;
+
+        private String email;
+
+        public Builder() {
+        }
+        public Builder firstName(String firstName){
+            this.firstName = firstName;
+            return this;
+        }
+        public Builder lastName(String lastName){
+            this.lastName = lastName;
+            return this;
+        }
+        public Builder email(String email){
+            this.email = email;
+            return this;
+        }
+        public Employee build(){
+            return new Employee(firstName, lastName, email);
+        }
+    }
 }
