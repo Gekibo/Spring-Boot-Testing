@@ -10,5 +10,6 @@ public interface EmployeeService {
     List<Employee> findAll();
     Optional<Employee> findById(long id);
     Employee updateEmployee(Employee updatedEmployee);
+    Optional<Employee> updateEmployee(long id, Employee updatedEmployee);
     void deleteById(long id);
 }
