@@ -16,7 +16,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-@ExtendWith(MockitoExtension.class) // dodawać tylko jak korzystamy z adnotacji
+import static org.mockito.Mockito.mock;
+
+//@ExtendWith(MockitoExtension.class) // dodawać tylko jak korzystamy z adnotacji
 class EmployeeServiceTest {
     //   test saveEmployee(Employee employee), który zwraca wyjątek
     //   test getAllEmployees() - pozytywny scenariusz
@@ -24,14 +26,17 @@ class EmployeeServiceTest {
     //   test getEmployeeById(long id);
     //   test updateEmployee(Employee updatedEmployee);
     //   test deleteEmployee(long id);
-    @Mock
-    private EmployeeRepository employeeRepository;
-    @InjectMocks
-    private EmployeeServiceImpl employeeService;
+//    @Mock
+//    private EmployeeRepository employeeRepository;
+//    @InjectMocks
+//    private EmployeeServiceImpl employeeService;
+    private final EmployeeRepository employeeRepository = mock(EmployeeRepository.class);
+    private final EmployeeServiceImpl employeeService = new EmployeeServiceImpl(employeeRepository);
 
     private Employee employee;
+
     @BeforeEach
-    void setUp(){
+    void setUp() {
         employee = Employee.builder()
 //                .id(1L)
                 .firstName("Adam")
@@ -41,8 +46,8 @@ class EmployeeServiceTest {
     }
 
     @Test
-    @DisplayName("Zapisywanie pracownika")
-    void givenEmployeeObject_whenSave_thenReturnSavedEmployee(){
+    @DisplayName("Zapisywanie pracownika bez wyjątku")
+    void givenEmployeeObject_whenSave_thenReturnSavedEmployee() {
         // given
         given(employeeRepository.findByEmail(employee.getEmail()))
                 .willReturn(Optional.empty());
@@ -56,4 +61,6 @@ class EmployeeServiceTest {
 //        assertThat(savedEmployee.getId()).isGreaterThan(0); // aby to odwzorować musimy mieć możliwość ustawiania ID
         assertThat(savedEmployee).isEqualTo(employee);
     }
+
+
 }
