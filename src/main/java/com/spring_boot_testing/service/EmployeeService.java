@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
-    Employee saveEmployee(Employee employee);
-    List<Employee> getAllEmployees();
-    Optional<Employee> getEmployeeById(long id);
+    Employee save(Employee employee);
+    List<Employee> findAll();
+    Optional<Employee> FindById(long id);
     Employee updateEmployee(Employee updatedEmployee);
-    void deleteEmployee(long id);
+    void deleteById(long id);
 }

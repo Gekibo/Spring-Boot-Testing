@@ -17,7 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
+    public Employee save(Employee employee) {
         Optional<Employee> savedEmployee = employeeRepository.findByEmail(employee.getEmail());
         if(savedEmployee.isPresent())
             throw new EmployeeAlreadyExists("Employee already exists with given email: " + employee.getEmail());
@@ -25,22 +25,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return null;
+    public List<Employee> findAll() {
+        return employeeRepository.findAll();
     }
 
     @Override
-    public Optional<Employee> getEmployeeById(long id) {
-        return Optional.empty();
+    public Optional<Employee> FindById(long id) {
+        return employeeRepository.findById(id);
     }
 
     @Override
     public Employee updateEmployee(Employee updatedEmployee) {
-        return null;
+        return employeeRepository.save(updatedEmployee);
     }
 
     @Override
-    public void deleteEmployee(long id) {
+    public void deleteById(long id) {
 
     }
 }
