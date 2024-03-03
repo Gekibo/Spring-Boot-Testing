@@ -28,5 +28,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             , nativeQuery = true)
     Optional<Employee> findByNativeSqlNamedParams(@Param("xyz")String firstName, String lastName);
 
-    Employee saveEmployee(Employee employee);
+//    Employee saveEmployee(Employee employee);
 }
